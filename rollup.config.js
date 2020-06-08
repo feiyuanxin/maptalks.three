@@ -15,11 +15,11 @@ if (pkg.peerDependencies && pkg.peerDependencies['maptalks']) {
 outro = `typeof console !== 'undefined' && console.log('${outro}');`;
 const intro = `
     var IS_NODE = typeof exports === 'object' && typeof module !== 'undefined';
-    var maptalks = maptalks;
+    var maptalks = maptalks || require('maptalks');
     if (IS_NODE) {
         maptalks = maptalks || require('maptalks');
     }
-    var workerLoaded;
+    var workerLoaded = false;
     function define(_, chunk) {
     if (!workerLoaded) {
         if(maptalks&&maptalks.registerWorkerAdapter){
