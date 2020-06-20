@@ -18,7 +18,10 @@ import ThreeVectorTileLayer from './src/ThreeVectorTileLayer';
 import Terrain from './src/Terrain';
 import TerrainVectorTileLayer from './src/TerrainVectorTileLayer';
 import HeatMap from './src/HeatMap';
+import newBar from './src/newBars';
 import { setRaycasterLinePrecision } from './src/util/ThreeAdaptUtil';
+import { newPoint } from './src/newPoint';
+import { MaptalkText } from './src/text';
 
 const options = {
     'renderer': 'gl',
@@ -227,6 +230,26 @@ class ThreeLayer extends maptalks.CanvasLayer {
         return new Bar(coordinate, options, material, this);
     }
 
+        /**
+     *
+     * @param {maptalks.Coordinate} coordinate
+     * @param {Object} options
+     * @param {THREE.Material} material
+     */
+    toNewBar(coordinate, options, color1, color2) {
+        return new newBar(coordinate, options, color1, color2, this);
+    }
+
+            /**
+     *
+     * @param {maptalks.Coordinate} coordinate
+     * @param {Object} options
+     * @param {THREE.Material} material
+     */
+    toText(coordinate, txt, options, material) {
+        return new MaptalkText(coordinate, txt, options, material, this);
+    }
+
 
     /**
     *
@@ -290,6 +313,16 @@ class ThreeLayer extends maptalks.CanvasLayer {
      */
     toPoint(coordinate, options, material) {
         return new Point(coordinate, options, material, this);
+    }
+
+    /**
+     *
+     * @param {maptalks.Coordinate} coordinate
+     * @param {*} options
+     * @param {*} material
+     */
+    toNewPoint(coordinate, options, material) {
+        return new newPoint(coordinate, options, material, this);
     }
 
 
