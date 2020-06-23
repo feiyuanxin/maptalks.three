@@ -6,8 +6,8 @@ import BaseObject from './BaseObject';
 
 const OPTIONS = {
     size: 400,
-    height: 50,//字体的厚度
-    weight: "normal",
+    height: 50, //字体的厚度
+    weight: 'normal',
     bevelThickness: 0.2,
     bevelSize: 0.5,
     bevelSegments: 3,
@@ -17,7 +17,7 @@ const OPTIONS = {
 };
 
 class MaptalkText extends BaseObject {
-    constructor(coordinate,txt, options, material, layer) {
+    constructor(coordinate, txt, options, material, layer) {
         options = maptalks.Util.extend({}, OPTIONS, options, { layer, coordinate });
         super();
         this._initOptions(options);
@@ -26,8 +26,8 @@ class MaptalkText extends BaseObject {
         textGeo.computeBoundingBox();
         textGeo.computeVertexNormals();
 
-        var centerOffset = - 0.5 * ( textGeo.boundingBox.max.x - textGeo.boundingBox.min.x );
-        var geometry = new THREE.BufferGeometry().fromGeometry( textGeo );
+        var centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
+        var geometry = new THREE.BufferGeometry().fromGeometry(textGeo);
         this._createMesh(geometry, material);
         /*
         text1.position.z = v.z;
@@ -43,4 +43,4 @@ class MaptalkText extends BaseObject {
     }
 }
 
-export {MaptalkText};
+export { MaptalkText };

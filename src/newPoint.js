@@ -8,13 +8,11 @@ const OPTIONS = {
     height: 0
 };
 
-const vector = new THREE.Vector3();
-
 class newPoint extends BaseObject {
     constructor(coordinate, options, material, layer) {
         options = maptalks.Util.extend({}, OPTIONS, options, { layer, coordinate });
         super();
-        let { width,height,altitude } = options;
+        let { width, height, altitude } = options;
         this._initOptions(options);
 
         var geometry = new THREE.PlaneBufferGeometry(width, height);
@@ -27,4 +25,4 @@ class newPoint extends BaseObject {
 
 }
 
-export {newPoint};
+export { newPoint };

@@ -22,6 +22,7 @@ import newBar from './src/newBars';
 import { setRaycasterLinePrecision } from './src/util/ThreeAdaptUtil';
 import { newPoint } from './src/newPoint';
 import { MaptalkText } from './src/text';
+import Circle from './src/Circle';
 
 const options = {
     'renderer': 'gl',
@@ -230,7 +231,7 @@ class ThreeLayer extends maptalks.CanvasLayer {
         return new Bar(coordinate, options, material, this);
     }
 
-        /**
+    /**
      *
      * @param {maptalks.Coordinate} coordinate
      * @param {Object} options
@@ -240,7 +241,7 @@ class ThreeLayer extends maptalks.CanvasLayer {
         return new newBar(coordinate, options, color1, color2, this);
     }
 
-            /**
+    /**
      *
      * @param {maptalks.Coordinate} coordinate
      * @param {Object} options
@@ -323,6 +324,16 @@ class ThreeLayer extends maptalks.CanvasLayer {
      */
     toNewPoint(coordinate, options, material) {
         return new newPoint(coordinate, options, material, this);
+    }
+
+    /**
+     *
+     * @param {maptalks.Coordinate} coordinate
+     * @param {*} options
+     * @param {*} material
+     */
+    toCircle(coordinate, options, material) {
+        return new Circle(coordinate, options, material, this);
     }
 
 

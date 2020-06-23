@@ -3,7 +3,7 @@ import * as THREE from 'three';
 //import { BaseObject } from 'maptalks.three'
 import { getGeometry } from './util/BarUtil';
 import BaseObject from './BaseObject';
-const KEY = '-';
+//const KEY = '-';
 
 const OPTIONS = {
     radius: 10,
@@ -22,7 +22,7 @@ class newBar extends BaseObject {
         options = maptalks.Util.extend({}, OPTIONS, options, { layer, coordinate });
         super();
         this._initOptions(options);
-        const { height, radius, topColor, bottomColor, altitude } = options;
+        const { height, radius, altitude } = options;
         options.height = layer.distanceToVector3(height, height).x;
         options.radius = layer.distanceToVector3(radius, radius).x;
         // Meter as unit
@@ -34,43 +34,43 @@ class newBar extends BaseObject {
 
         var barmaterial = new THREE.ShaderMaterial({
             uniforms: {
-              color1: {
-                value: new THREE.Color(color1)
-              },
-              color2: {
-                value: new THREE.Color(color2)
-              },
-              bboxMin: {
-                value: geometry.boundingBox.min
-              },
-              bboxMax: {
-                value: geometry.boundingBox.max
-              }
+                color1: {
+                    value: new THREE.Color(color1)
+                },
+                color2: {
+                    value: new THREE.Color(color2)
+                },
+                bboxMin: {
+                    value: geometry.boundingBox.min
+                },
+                bboxMax: {
+                    value: geometry.boundingBox.max
+                }
             },
             vertexShader: `
-              uniform vec3 bboxMin;
-              uniform vec3 bboxMax;
-            
-              varying vec2 vUv;
+                uniform vec3 bboxMin;
+                uniform vec3 bboxMax;
+                
+                varying vec2 vUv;
 
-              void main() {
-                vUv.y = (position.z - bboxMin.z) / (bboxMax.z - bboxMin.z);
-                gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
-              }
+                void main() {
+                  vUv.y = (position.z - bboxMin.z) / (bboxMax.z - bboxMin.z);
+                  gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+                }
             `,
             fragmentShader: `
-              uniform vec3 color1;
-              uniform vec3 color2;
-            
-              varying vec2 vUv;
+                uniform vec3 color1;
+                uniform vec3 color2;
               
-              void main() {
+                varying vec2 vUv;
                 
-                gl_FragColor = vec4(mix(color1, color2, vUv.y), 1.0);
-              }
+                void main() {
+                  
+                  gl_FragColor = vec4(mix(color1, color2, vUv.y), 1.0);
+                }
             `,
             wireframe: false
-          });
+        });
 
         //if (topColor && !material.map) {
             //initVertexColors(geometry, bottomColor, topColor, 'z', options.height / 2);
