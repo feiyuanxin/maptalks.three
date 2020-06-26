@@ -19,11 +19,15 @@ import Terrain from './src/Terrain';
 import TerrainVectorTileLayer from './src/TerrainVectorTileLayer';
 import HeatMap from './src/HeatMap';
 import { setRaycasterLinePrecision } from './src/util/ThreeAdaptUtil';
+import GPUPick from './src/GPUPick';
+import FatLine from './src/FatLine';
+import FatLines from './src/FatLines';
 
 const options = {
     'renderer': 'gl',
     'doubleBuffer': false,
-    'glOptions': null
+    'glOptions': null,
+    'geometryEvents': true
 };
 
 const RADIAN = Math.PI / 180;
@@ -379,6 +383,26 @@ class ThreeLayer extends maptalks.CanvasLayer {
         return new HeatMap(data, options, material, this);
     }
 
+    /**
+     *
+     * @param {*} lineString
+     * @param {*} options
+     * @param {*} material
+     */
+    toFatLine(lineString, options, material) {
+        return new FatLine(lineString, options, material, this);
+    }
+
+    /**
+     *
+     * @param {*} lineStrings
+     * @param {*} options
+     * @param {*} material
+     */
+    toFatLines(lineStrings, options, material) {
+        return new FatLines(lineStrings, options, material, this);
+    }
+
 
 
 
@@ -422,7 +446,19 @@ class ThreeLayer extends maptalks.CanvasLayer {
     renderScene() {
         const renderer = this._getRenderer();
         if (renderer) {
-            return renderer.renderScene();
+            renderer.clearCanvas();
+            renderer.renderScene();
+        }
+        return this;
+    }
+
+    renderPickScene() {
+        const renderer = this._getRenderer();
+        if (renderer) {
+            const pick = renderer.pick;
+            if (pick) {
+                pick.pick(this._containerPoint);
+            }
         }
         return this;
     }
@@ -431,6 +467,14 @@ class ThreeLayer extends maptalks.CanvasLayer {
         const renderer = this._getRenderer();
         if (renderer) {
             return renderer.context;
+        }
+        return null;
+    }
+
+    getPick() {
+        const renderer = this._getRenderer();
+        if (renderer) {
+            return renderer.pick;
         }
         return null;
     }
@@ -523,6 +567,7 @@ class ThreeLayer extends maptalks.CanvasLayer {
             return [];
         }
         const p = this.getMap().coordToContainerPoint(coordinate);
+        this._containerPoint = p;
         const { x, y } = p;
         this._initRaycaster();
         const raycaster = this._raycaster,
@@ -570,6 +615,7 @@ class ThreeLayer extends maptalks.CanvasLayer {
                 return baseObject;
             });
         }
+        this.renderPickScene();
         if (hasidentifyChildren.length) {
             hasidentifyChildren.forEach(baseObject => {
                 // baseObject identify
@@ -610,13 +656,23 @@ class ThreeLayer extends maptalks.CanvasLayer {
      * @param {*} e
      */
     _identifyBaseObjectEvents(e) {
+        if (!this.options.geometryEvents) {
+            return this;
+        }
         const map = this.map || this.getMap();
         //When map interaction, do not carry out mouse movement detection, which can have better performance
         // if (map.isInteracting() && e.type === 'mousemove') {
         //     return this;
         // }
-        map.resetCursor('default');
         const { type, coordinate } = e;
+        const now = maptalks.Util.now();
+        if (this._mousemoveTimeOut && type === 'mousemove') {
+            if (now - this._mousemoveTimeOut < 16) {
+                return this;
+            }
+        }
+        this._mousemoveTimeOut = now;
+        map.resetCursor('default');
         const baseObjects = this.identify(coordinate);
         const scene = this.getScene();
         if (baseObjects.length === 0 && scene) {
@@ -830,6 +886,7 @@ class ThreeRenderer extends maptalks.renderer.CanvasLayerRenderer {
         camera.matrixAutoUpdate = false;
         this._syncCamera();
         scene.add(camera);
+        this.pick = new GPUPick(this.layer);
     }
 
     onCanvasCreate() {
