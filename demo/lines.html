@@ -179,7 +179,6 @@
             // layer animation support Skipping frames
             threeLayer._needsUpdate = !threeLayer._needsUpdate;
             if (threeLayer._needsUpdate) {
-                threeLayer._renderer.clearCanvas();
                 threeLayer.renderScene();
             }
             stats.update();
@@ -215,15 +214,15 @@
                     mesh.setSymbol(material);
                 });
             });
-            gui.add(params, 'show').onChange(function () {
-                lines.forEach(function (mesh) {
-                    if (params.show) {
-                        mesh.show();
-                    } else {
-                        mesh.hide();
-                    }
-                });
-            });
+            // gui.add(params, 'show').onChange(function () {
+            //     lines.forEach(function (mesh) {
+            //         if (params.show) {
+            //             mesh.show();
+            //         } else {
+            //             mesh.hide();
+            //         }
+            //     });
+            // });
             gui.add(params, 'altitude', 0, 300).onChange(function () {
                 lines.forEach(function (mesh) {
                     mesh.setAltitude(params.altitude);
