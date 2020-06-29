@@ -21,14 +21,16 @@ class MaptalkText extends BaseObject {
         options = maptalks.Util.extend({}, OPTIONS, options, { layer, coordinate });
         super();
         this._initOptions(options);
-
+        this._createGroup();
         var textGeo =  new THREE.TextGeometry(txt, options);
         textGeo.computeBoundingBox();
         textGeo.computeVertexNormals();
 
         var centerOffset = -0.5 * (textGeo.boundingBox.max.x - textGeo.boundingBox.min.x);
         var geometry = new THREE.BufferGeometry().fromGeometry(textGeo);
-        this._createMesh(geometry, material);
+        var textMesh = new THREE.Mesh(geometry, material);
+        this.getObject3d().add(textMesh);
+        //this._createMesh(geometry, material);
         /*
         text1.position.z = v.z;
         text1.position.y = v.y;
@@ -37,9 +39,10 @@ class MaptalkText extends BaseObject {
         const { altitude } = options;
         const z = layer.distanceToVector3(altitude, altitude).x;
         const position = layer.coordinateToVector3(coordinate, z);
-        position.x += centerOffset;
+        //position.x += centerOffset;
+        textMesh.position.x = centerOffset;
         this.getObject3d().position.copy(position);
-        this.getObject3d().rotation.y = Math.PI * 2;
+        //this.getObject3d().rotation.y = Math.PI * 2;
     }
 }
 
