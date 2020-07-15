@@ -85,7 +85,7 @@
             let MAPBOX_RGB_URL = 'http://localhost:8080/tilelayer?z={z}&x={x}&y={y}', debug = true
             if (window.location.host.includes('maptalks')) {
                 debug = false;
-                MAPBOX_RGB_URL = 'https://{s}.tiles.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token=pk.eyJ1IjoiemhlbmZ1IiwiYSI6ImNpb284bzNoYzAwM3h1Ym02aHlrand6OTAifQ.sKX-XKJMmgtk_oI5oIUV_g';
+                MAPBOX_RGB_URL = 'https://{s}.tiles.mapbox.com/v4/mapbox.terrain-rgb/{z}/{x}/{y}.pngraw?access_token'+accesstoken;
             }
             vectortilelayer.getTileData = function (q) {
                 const { key, url, callback, img, rgbImage } = q;
