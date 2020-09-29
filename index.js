@@ -533,6 +533,9 @@ class ThreeLayer extends maptalks.CanvasLayer {
             meshes = [meshes];
         }
         const scene = this.getScene();
+        if (scene === undefined) {
+            return null;
+        }
         meshes.forEach(mesh => {
             if (mesh instanceof BaseObject) {
                 scene.add(mesh.getObject3d());
