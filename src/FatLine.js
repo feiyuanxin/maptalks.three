@@ -40,12 +40,14 @@ class FatLine extends BaseObject {
 
     _init() {
         const pick = this.getLayer().getPick();
-        this.on('add', () => {
-            pick.add(this.pickObject3d);
-        });
-        this.on('remove', () => {
-            pick.remove(this.pickObject3d);
-        });
+        if (pick) {
+            this.on('add', () => {
+                pick.add(this.pickObject3d);
+            });
+            this.on('remove', () => {
+                pick.remove(this.pickObject3d);
+            });
+        }
     }
 
     _setMaterialRes(layer, material) {
@@ -60,24 +62,26 @@ class FatLine extends BaseObject {
         const geometry = new LineGeometry();
         geometry.setPositions(ps);
         const pick = this.getLayer().getPick();
-        const color = pick.getColor();
-        const colors = [];
-        for (let i = 0, len = ps.length / 3; i < len; i++) {
-            colors.push(color.r, color.g, color.b);
+        if (pick) {
+            const color = pick.getColor();
+            const colors = [];
+            for (let i = 0, len = ps.length / 3; i < len; i++) {
+                colors.push(color.r, color.g, color.b);
+            }
+            geometry.setColors(colors);
+            const material = new LineMaterial({
+                color: '#fff',
+                // side: THREE.BackSide,
+                linewidth,
+                vertexColors: THREE.VertexColors,
+            });
+            this._setMaterialRes(this.getLayer(), material);
+            const colorIndex = color.getHex();
+            const mesh = new Line2(geometry, material);
+            mesh.position.copy(this.getObject3d().position);
+            mesh._colorIndex = colorIndex;
+            this.setPickObject3d(mesh);
         }
-        geometry.setColors(colors);
-        const material = new LineMaterial({
-            color: '#fff',
-            // side: THREE.BackSide,
-            linewidth,
-            vertexColors: THREE.VertexColors,
-        });
-        this._setMaterialRes(this.getLayer(), material);
-        const colorIndex = color.getHex();
-        const mesh = new Line2(geometry, material);
-        mesh.position.copy(this.getObject3d().position);
-        mesh._colorIndex = colorIndex;
-        this.setPickObject3d(mesh);
     }
 
     // eslint-disable-next-line no-unused-vars
