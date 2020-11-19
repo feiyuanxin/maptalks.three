@@ -1,6 +1,6 @@
 {
   "name": "maptalks.three",
-  "version": "0.11.3",
+  "version": "0.12.2",
   "description": "A maptalks Layer to render with THREE.js.",
   "license": "MIT",
   "repository": {
@@ -44,6 +44,6 @@
     "maptalks": ">=0.39.0"
   },
   "dependencies": {
-    "geometry-extrude": "^0.1.2"
+    "deyihu-geometry-extrude": "^0.1.3"
   }
 }
