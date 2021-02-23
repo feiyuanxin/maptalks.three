@@ -35,10 +35,10 @@ import LineMaterial from './util/fatline/LineMaterial';
 import { BarOptionType, BaseLayerOptionType, BaseObjectOptionType, ExtrudeLineOptionType, ExtrudeLineTrailOptionType, ExtrudePolygonOptionType, FatLineMaterialType, getBaseObjectMaterialType, HeatMapDataType, HeatMapOptionType, LineMaterialType, LineOptionType, LineStringType, PointOptionType, PolygonType, SingleLineStringType, TerrainOptionType } from './type/index';
 import { getWorkerCode, getWorkerName } from './worker/getworker';
 
-import newBar from './src/newBars';
-import { newPoint } from './src/newPoint';
-import { MaptalkText } from './src/text';
-import Circle from './src/Circle';
+import newBar from './newBars';
+import { newPoint } from './newPoint';
+import { MaptalkText } from './text';
+import Circle from './Circle';
 
 
 const options = {

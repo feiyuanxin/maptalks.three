@@ -78,7 +78,7 @@ class FatLine extends BaseObject {
                 color: '#fff',
                 // side: THREE.BackSide,
                 linewidth,
-                vertexColors: THREE.VertexColors,
+                vertexColors: getVertexColors(),
             });
             this._setMaterialRes(this.getLayer(), material);
             const colorIndex = color.getHex();
